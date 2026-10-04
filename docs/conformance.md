@@ -50,6 +50,7 @@ Legend: **yes** follows the convention, **no** missing, **diff** present but dif
 | Scoped npm name | yes | yes | yes | yes |
 | Published on npm (0.1.0) | yes | yes | yes | yes |
 | Release automation | no | no | no | no |
+| `CHANGELOG.md` shipped in the package and linked from the README | no | no | no | no |
 | `bench/` | no | no | no | no |
 | Listed in upstream catalog | yes | yes | yes | yes |
 

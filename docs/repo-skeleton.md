@@ -44,7 +44,7 @@ The fields that matter:
 - `"name": "@simkimsia/<vendor>-axi"`, a scoped name nobody else can own ([distribution.md](distribution.md)).
 - `"type": "module"`, because `axi-sdk-js` and TOON are ESM.
 - `"bin": { "<vendor>-axi": "./dist/bin/<vendor>-axi.js" }`, so the published package runs compiled JS and never needs `tsx`.
-- `"files": ["dist", "skills/<vendor>-axi", "LICENSE", "README.md"]`, so the skill ships inside the npm package and tests do not.
+- `"files": ["dist", "skills/<vendor>-axi", "LICENSE", "README.md", "CHANGELOG.md"]`, so the skill and the release notes ship inside the npm package and tests do not.
 - `"packageManager": "pnpm@10.33.0"`, which CI reads to pick the pnpm version.
 - `"engines": { "node": ">=20" }`, the floor `axi-sdk-js` supports.
 - Scripts: `build`, `test`, `test:watch`, `dev`, `format`, `format:check`, `prepublishOnly`. `prepublishOnly` builds so a publish can never ship a stale `dist/`.

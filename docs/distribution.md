@@ -107,6 +107,11 @@ Why the `paths-ignore` blocks: release-please opens its PR with `GITHUB_TOKEN`, 
 That PR only touches the three generated files, so ignoring those paths means no stuck run is ever created.
 The guard's author check alone cannot do this, because it is evaluated inside a run that never starts.
 
+The changelog has one author, release-please.
+It writes `CHANGELOG.md` and the GitHub Release notes from the same commits, and the guard keeps hand edits out, so there is no hand-kept "Unreleased" section like gh-axi's.
+`CHANGELOG.md` is in the package's `"files"` list ([repo-skeleton.md](repo-skeleton.md#packagejson)), so an installed copy carries its own release notes, including breaking error-code renames an agent may hit after `update`.
+The README links it under `## Changelog` ([template](../templates/README.md)).
+
 After the rollout merges in a repo, stop publishing that repo by hand.
 
 ### One-time setup per repo
