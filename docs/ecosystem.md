@@ -14,7 +14,8 @@ npx skills add simkimsia/<vendor>-axi --skill <vendor>-axi -g
 The skill is a discovery stub. It tells the agent to prefer the axi over the plain CLI and then defers to `<vendor>-axi --help` for current commands, because an installed copy of a command list goes stale.
 The shape follows [gh-axi's skill](https://github.com/kunchenguid/gh-axi/blob/main/skills/gh-axi/SKILL.md), with sections my repos add:
 
-- **Setup**: install from a clone, and what `<VENDOR>_NOT_INSTALLED` or `NOT_LINKED` means.
+- **Setup**: one line pointing at the npm package and the README, and what `<VENDOR>_NOT_INSTALLED` or `NOT_LINKED` means.
+  Install steps live in the README only. The skill ships inside the npm package, so a copied install block goes stale in every published version; on 2026-10-04 all four skills still said "not on npm yet" after the packages were published.
 - **When the axi cannot do it**: fall back to the plain CLI, finish the task, then search for and file a gap issue with a fixed template.
 - **Deliberately not wrapped (do not file)**: destructive commands excluded by design, so agents do not open issues for them.
 

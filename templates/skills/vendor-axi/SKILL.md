@@ -17,14 +17,9 @@ raw `<cli>` for <Vendor> operations: TOON output, structured errors with
 
 ## Setup
 
-<vendor>-axi is not on npm yet. Run it from a clone:
-
-```sh
-git clone https://github.com/simkimsia/<vendor>-axi
-pnpm --prefix <vendor>-axi install
-pnpm --prefix <vendor>-axi run build
-pnpm add -g link:$PWD/<vendor>-axi   # puts `<vendor>-axi` on PATH
-```
+Install with `pnpm add -g @simkimsia/<vendor>-axi`, or run it without installing
+via `npx -y @simkimsia/<vendor>-axi`. The README's Install section covers working
+from a clone.
 
 It wraps `<cli>`, which must be installed and logged in (`<cli> login`).
 If a command fails with `<VENDOR>_NOT_INSTALLED`, ask the user to install
