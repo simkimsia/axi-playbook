@@ -19,17 +19,22 @@ Early scaffold (v0). Read-only commands only.
 
 ## Install
 
-Not on npm yet, so `npx -y @simkimsia/<vendor>-axi` does not work. Install from a clone:
+```sh
+pnpm add -g @simkimsia/<vendor>-axi
+```
+
+Or run it without installing: `npx -y @simkimsia/<vendor>-axi --help`.
+
+Check it: `<vendor>-axi --version`. Update later with `<vendor>-axi update`.
+
+To work on it from a clone:
 
 ```sh
 git clone https://github.com/simkimsia/<vendor>-axi
-pnpm --prefix <vendor>-axi install
-pnpm --prefix <vendor>-axi run build
+pnpm -C <vendor>-axi install
+pnpm -C <vendor>-axi run build
 pnpm add -g link:$PWD/<vendor>-axi   # puts `<vendor>-axi` on PATH
 ```
-
-Check it: `<vendor>-axi --version`. To update later, `git pull` in the clone
-and run the build step again.
 
 ## Usage
 

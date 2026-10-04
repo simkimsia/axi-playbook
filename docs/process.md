@@ -20,6 +20,10 @@ See upstream [CONTRIBUTING.md](https://github.com/kunchenguid/axi/blob/main/CONT
 
 One quirk: the pipeline rewrites the PR body on each run, so re-add any `Closes #N` line after every run.
 
+The gate needs a CI workflow in the repo.
+Its CI step waits for the PR's checks, and when a repo has no CI check at all, that step never reports ready.
+I learned this on 2026-10-04, which is why every repo carries [the CI workflow](repo-skeleton.md#ci).
+
 ## Rebase-merge
 
 PRs merge with rebase-merge, so each commit lands on `main` as written.

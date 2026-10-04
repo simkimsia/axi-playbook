@@ -58,7 +58,12 @@ It compiles `src/` and `bin/` only and excludes `test/`, which Vitest runs from 
 
 [railway-axi/.github/workflows/ci.yml](https://github.com/simkimsia/railway-axi/blob/main/.github/workflows/ci.yml) runs install, build, `format:check`, and test on every push to main and every PR.
 Build runs before test so a type error fails fast, and `format:check` keeps diffs reviewable.
-A copy is in [templates/.github/workflows/ci.yml](../templates/.github/workflows/ci.yml).
+It runs on Node 24, the same as gh-axi, while `engines` stays at `>=20`.
+A copy is in [templates/.github/workflows/ci.yml](../templates/.github/workflows/ci.yml), and the file is byte-identical in all four repos.
+
+CI is required, not optional.
+Without any CI check on a PR, the no-mistakes CI step never reports ready, so the gate stalls ([process.md](process.md#the-no-mistakes-gate)).
+I learned this on 2026-10-04.
 
 ## .prettierignore
 

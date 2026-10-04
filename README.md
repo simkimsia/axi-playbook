@@ -36,7 +36,7 @@ This playbook covers the decisions the spec leaves open.
 | [conditional-modules.md](docs/conditional-modules.md) | Secret redaction, ambiguity refusal, write safety, session hooks |
 | [testing.md](docs/testing.md) | Offline tests, verbatim stderr fixtures, live smoke for writes |
 | [process.md](docs/process.md) | Branches, the no-mistakes gate, merges, commits, gap issues |
-| [distribution.md](docs/distribution.md) | npm naming, install from a clone, release plan |
+| [distribution.md](docs/distribution.md) | npm naming, install, publish gotchas, release plan |
 | [ecosystem.md](docs/ecosystem.md) | Agent skill, catalog entry, scoring, benchmarks, VISION.md and triage |
 | [using-others-axis.md](docs/using-others-axis.md) | The axi-first rule, gap and bypass handling, writing upstream issues |
 | [conformance.md](docs/conformance.md) | Which repo follows which convention, and the drift to fix |
@@ -52,9 +52,11 @@ The full matrix is in [conformance.md](docs/conformance.md).
 The short version:
 
 - **Shared by all four:** the scaffold (bin, tsconfig, package.json), the `--version` fast path, one spawner module, ordered error patterns, `formatError` hook, args rejection, the shipped agent skill, and a catalog entry upstream.
-- **Present in some:** VISION.md (railway, cloudflare), CI (railway), triage crewmate (cloudflare), truncation with `--full` (calcom), `.prettierignore` (railway, calcom).
-- **Present in none yet:** session hooks, `bench/`, release automation, an npm release.
-- **Known drift:** the README install command in three repos, the error code for "no linked context", and unwritten backend stances for netlify and calcom.
+- **Published:** all four are on npm as `@simkimsia/<vendor>-axi@0.1.0` since 2026-10-04.
+- **Present in some:** VISION.md (railway, cloudflare), triage crewmate (cloudflare), truncation with `--full` (calcom).
+- **Rolling out via PRs to all four:** CI on Node 24, `.prettierignore`, and the npm-first README install section.
+- **Present in none yet:** session hooks, `bench/`, release automation.
+- **Known drift:** the error code for "no linked context" and unwritten backend stances for netlify and calcom.
 
 ## License
 
