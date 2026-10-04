@@ -64,7 +64,7 @@ It compiles `src/` and `bin/` only and excludes `test/`, which Vitest runs from 
 Build runs before test so a type error fails fast, and `format:check` keeps diffs reviewable.
 It runs on Node 24, the same as gh-axi, while `engines` stays at `>=20`.
 A copy is in [templates/.github/workflows/ci.yml](../templates/.github/workflows/ci.yml), and the file is byte-identical in all four repos.
-The template also carries a `paths-ignore` block for release-please's generated files, which reaches each repo with the release rollout ([distribution.md](distribution.md#releases-release-please-and-trusted-publishing)).
+The template also carries a `paths-ignore` block for release-please's generated files, which reached all four repos with the release rollout ([distribution.md](distribution.md#releases-release-please-and-trusted-publishing)).
 
 CI is required, not optional.
 Without any CI check on a PR, the no-mistakes CI step never reports ready, so the gate stalls ([process.md](process.md#the-no-mistakes-gate)).

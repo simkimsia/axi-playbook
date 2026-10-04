@@ -63,7 +63,7 @@ Legend: **yes** follows the convention, **no** missing, **diff** present but dif
 
 Done since the first audit: the scoped npm name is merged in all four ([railway-axi#13](https://github.com/simkimsia/railway-axi/pull/13), [cloudflare-axi#13](https://github.com/simkimsia/cloudflare-axi/pull/13), [netlify-axi#2](https://github.com/simkimsia/netlify-axi/pull/2), [calcom-axi#2](https://github.com/simkimsia/calcom-axi/pull/2)), and all four are published on npm as `@simkimsia/<name>@0.1.0` ([distribution.md](distribution.md)).
 On 2026-10-04 the shared CI workflow on Node 24, `.prettierignore`, the npm-first README install section, and the skill Setup pointer to the README merged in all four ([railway-axi#14](https://github.com/simkimsia/railway-axi/pull/14), [cloudflare-axi#14](https://github.com/simkimsia/cloudflare-axi/pull/14), [netlify-axi#3](https://github.com/simkimsia/netlify-axi/pull/3), [calcom-axi#3](https://github.com/simkimsia/calcom-axi/pull/3)), closing [cloudflare-axi#12](https://github.com/simkimsia/cloudflare-axi/issues/12), [netlify-axi#1](https://github.com/simkimsia/netlify-axi/issues/1), and [calcom-axi#1](https://github.com/simkimsia/calcom-axi/issues/1).
-The CI template has since gained a `paths-ignore` block for release-please, which reaches each repo with the release rollout.
+The CI template has since gained a `paths-ignore` block for release-please, which reached all four repos with the release rollout.
 
 Larger items, not drift: session hooks, a generated skill, and `bench/` in each repo.
-Release automation (release-please with npm trusted publishing) is rolling out via PRs, starting with railway-axi ([distribution.md](distribution.md#releases-release-please-and-trusted-publishing)).
+Release automation (release-please with npm trusted publishing) is live in all four repos since 2026-10-04 ([distribution.md](distribution.md#releases-release-please-and-trusted-publishing)).

@@ -52,7 +52,8 @@ pnpm ignores `--prefix` for `install` and `link`, so `pnpm --prefix <vendor>-axi
 
 ## Publishing by hand
 
-Until release automation exists, I publish from a terminal.
+Only the first version of a package is published by hand, because npm's trusted publisher setting needs the package to exist already.
+After that, releases go through release-please (below).
 These are the gotchas from the first publish on 2026-10-04.
 
 Pass the package directory as an argument:
@@ -75,7 +76,7 @@ Use a forwarding alias as the npm account email, not a personal address.
 
 ## Releases: release-please and trusted publishing
 
-Status: rolling out via PRs, starting with railway-axi. Nothing is merged yet, so every repo still publishes by hand (above).
+Status: live in railway-axi, netlify-axi, cloudflare-axi and calcom-axi since 2026-10-04.
 The model is gh-axi, and the files are in [templates](../templates):
 
 - [release-please-config.json](../templates/release-please-config.json) sets the package name, `@simkimsia/<vendor>-axi`, and keeps pre-1.0 bumps small (`feat` bumps the patch, a breaking change bumps the minor).
@@ -95,14 +96,71 @@ How a release happens:
 
 Publishing uses npm trusted publishing (OIDC).
 There is no `NPM_TOKEN` secret: the workflow has `id-token: write`, and npm trusts that one workflow in that one repo.
-Trusted publishing needs npm 11.5.1 or later, and the npm bundled with the runner's Node 24 can be older, so the workflow runs `npm install -g npm@latest` before publishing.
+Trusted publishing needs npm 11.5.1 or later, and the npm bundled with the runner's Node 24 can be older, so the workflow runs `npm install -g npm@11` before publishing.
+It pins 11 rather than `latest` because npm 12 refuses to run on older Node 24 minors (it needs `^24.15.0`), so `latest` can break the job on a runner image update.
 Provenance ties each npm version to the commit and workflow run that built it.
 
-One-time setup per package, done by hand on npmjs.com before the first automated release: open the package's Settings, add a Trusted Publisher for GitHub Actions with owner `simkimsia`, the repo name, and workflow filename `release-please.yml`.
-The package must already exist on npm, which is why 0.1.0 was published by hand.
+Version bumps below 1.0: `feat` and `fix` bump the patch, and a breaking change (`!` or a `BREAKING CHANGE:` footer) bumps the minor.
+That is why cloudflare-axi's first automated release was 0.2.0, not 0.1.1: it carried the `NOT_CONFIGURED` to `NOT_LINKED` rename.
 
 Why the `paths-ignore` blocks: release-please opens its PR with `GITHUB_TOKEN`, and a `pull_request` run triggered by `GITHUB_TOKEN` sits in `action_required` and never starts.
 That PR only touches the three generated files, so ignoring those paths means no stuck run is ever created.
 The guard's author check alone cannot do this, because it is evaluated inside a run that never starts.
 
 After the rollout merges in a repo, stop publishing that repo by hand.
+
+### One-time setup per repo
+
+The workflow file is not enough on its own.
+Two settings live outside the repo, one on npm and one on GitHub, and each failed the first time it was missed.
+Do both before merging the PR that adds release-please.
+
+**1. npm: add the trusted publisher.**
+It is a per-package setting, not an account setting.
+Open the package page, for example `https://www.npmjs.com/package/@simkimsia/railway-axi`, and click the **Settings** tab, which only shows when you are logged in as a maintainer.
+The direct link is `https://www.npmjs.com/package/@simkimsia/<vendor>-axi/access`.
+Under **Trusted Publisher**, choose GitHub Actions and enter owner `simkimsia`, the repo name, and workflow filename `release-please.yml`.
+Leave the environment empty.
+
+- Check the permissions on the saved entry.
+  npm separates **publish** from **stage publish**, and an entry can end up with stage publish only.
+  The workflow runs a plain `npm publish`, so the entry must allow publish.
+  Fix it with **Edit** on the entry.
+- "a trusted publisher configuration that a token could also match already exists for this package" means the entry was already saved.
+  It is not a failure; edit the existing entry instead of adding a second one.
+- **Publishing access** on the same page does not affect trusted publishing; npm says so in a note under it.
+  The recommended choice is "Require two-factor authentication and disallow bypass 2fa tokens", which blocks long-lived tokens that skip 2FA, the usual way npm packages get hijacked.
+  Changing it does not fix a failed release.
+- To check the entries from a terminal, `npm trust list @simkimsia/<vendor>-axi` exists from npm 12 (`npx -y npm@latest trust list ...`).
+  It needs a one-time code, and in a non-interactive shell (an agent's shell, or a `!` command) the browser sign-in cannot complete, so pass `--otp=<code>`.
+  If the account uses a passkey, check in the browser instead.
+
+**2. GitHub: let Actions open pull requests.**
+release-please opens its release PR with `GITHUB_TOKEN`.
+New repos default to not allowing that, and the release-please job fails with:
+
+```text
+release-please failed: GitHub Actions is not permitted to create or approve pull requests.
+```
+
+The run had already pushed the release branch, so the only thing missing is the PR.
+Turn the setting on and keep the default token read-only:
+
+```sh
+gh api -X PUT repos/simkimsia/<vendor>-axi/actions/permissions/workflow \
+  -f default_workflow_permissions=read -F can_approve_pull_request_reviews=true
+```
+
+In the browser it is Settings, Actions, General, in the **Workflow permissions** box at the bottom of the page, not the "Actions permissions" radio buttons at the top: keep "Read repository contents and packages permissions" and tick "Allow GitHub Actions to create and approve pull requests".
+The workflow still gets `contents: write`, `pull-requests: write` and `id-token: write` from its own `permissions:` block, so the read-only default holds for every other workflow.
+
+Then rerun the latest failed release-please run rather than an older one, since release-please reads `main` as it is now:
+
+```sh
+gh run list -R simkimsia/<vendor>-axi --workflow release-please.yml --limit 1
+gh run rerun <run-id> -R simkimsia/<vendor>-axi --failed
+```
+
+**3. First automated release.**
+Merge one repo's release PR first and confirm the new version appears on npm before merging the others.
+That is the first real test of the trusted publisher entry, and one failure is cheaper to read than four.
