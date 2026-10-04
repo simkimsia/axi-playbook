@@ -72,8 +72,10 @@ I learned this on 2026-10-04.
 
 ## .prettierignore
 
-One line: `pnpm-lock.yaml`.
-The lockfile is generated, so Prettier has no business checking it, and a pnpm upgrade that changes its layout should not fail `format:check`.
+Two lines: `pnpm-lock.yaml` and `CHANGELOG.md`.
+Both are generated, so Prettier has no business checking them.
+A pnpm upgrade that changes the lockfile layout should not fail `format:check`.
+release-please writes `CHANGELOG.md` with `*` bullets and extra blank lines, which Prettier rewrites; without the ignore, the first release turns `main` red, and the release guard stops anyone from hand-fixing the file.
 See [railway-axi/.prettierignore](https://github.com/simkimsia/railway-axi/blob/main/.prettierignore).
 
 ## LICENSE
