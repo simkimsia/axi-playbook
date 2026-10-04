@@ -82,6 +82,9 @@ The model is gh-axi, and the files are in [templates](../templates):
 - [.release-please-manifest.json](../templates/.release-please-manifest.json) is seeded with the version already on npm, `0.1.0`.
 - [release-please.yml](../templates/.github/workflows/release-please.yml) runs on every push to `main`.
 - [guard-generated-files.yml](../templates/.github/workflows/guard-generated-files.yml) fails any human PR that edits `CHANGELOG.md` or `.release-please-manifest.json`, because release-please owns them.
+  It counts only modified or deleted files (`--diff-filter=MD`), which is one change from gh-axi's copy.
+  The PR that sets up release-please has to create the manifest, and gh-axi's version fails that PR; gh-axi never hit it because its guard came after its manifest.
+  Once the files exist, every hand edit is still caught.
 - [ci.yml](../templates/.github/workflows/ci.yml) gets a `paths-ignore` block for those same files.
 
 How a release happens:
