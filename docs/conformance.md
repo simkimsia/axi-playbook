@@ -41,10 +41,11 @@ Legend: **yes** follows the convention, **no** missing, **diff** present but dif
 | Shipped skill, `user-invocable: false` | yes | yes | yes | yes |
 | Skill generated from CLI text | no | no | no | no |
 | VISION.md | yes | yes | no | no |
-| CI workflow on Node 24 ([template](../templates/.github/workflows/ci.yml)) | PR | PR | PR | PR |
+| CI workflow on Node 24 ([template](../templates/.github/workflows/ci.yml)) | yes | yes | yes | yes |
 | Triage crewmate | no | yes | no | no |
-| `.prettierignore` | PR | PR | PR | PR |
-| README install shape ([template](../templates/README.md#install)) | PR | PR | PR | PR |
+| `.prettierignore` | yes | yes | yes | yes |
+| README install shape ([template](../templates/README.md#install)) | yes | yes | yes | yes |
+| Skill Setup points to the README ([template](../templates/skills/vendor-axi/SKILL.md)) | yes | yes | yes | yes |
 | PRs through no-mistakes | yes | no | n/a (no PRs) | n/a (no PRs) |
 | Scoped npm name | yes | yes | yes | yes |
 | Published on npm (0.1.0) | yes | yes | yes | yes |
@@ -54,15 +55,15 @@ Legend: **yes** follows the convention, **no** missing, **diff** present but dif
 
 ## Known drift to fix
 
-1. **README install section.** All four move to the shape in the [README template](../templates/README.md#install): `pnpm add -g @simkimsia/<name>` first, `npx` as the no-install option, and a clone path that uses `pnpm -C` and `pnpm add -g link:` because pnpm ignores `--prefix` ([cloudflare-axi#12](https://github.com/simkimsia/cloudflare-axi/issues/12)). Rolling out via PRs.
-2. **Error code for no linked context.** cloudflare-axi's `NOT_CONFIGURED` should become `NOT_LINKED` ([architecture.md](architecture.md#error-code-vocabulary)).
-3. **Backend stance.** netlify-axi and calcom-axi need a VISION.md that states CLI first and when API calls are allowed.
-4. **CI.** All four get the same `.github/workflows/ci.yml` from [templates](../templates/.github/workflows/ci.yml), byte for byte, on Node 24. Rolling out via PRs.
-5. **`.prettierignore`.** All four get the one-line file, `pnpm-lock.yaml`, alongside CI. pnpm can write a lockfile Prettier would reformat, and nobody should hand-format a lockfile. Rolling out via PRs.
-6. **Live smoke for `variables set`.** railway-axi's only write has no written smoke procedure.
-7. **Truncation.** Port calcom-axi's `Truncator` to the other three when a command can return long text (railway-axi `logs` is the first candidate).
-8. **Args helper name.** Pick one of `assertNoArgs` and `rejectExtraArgs` for the "reject leftovers" step and use it in all four.
+1. **Error code for no linked context.** cloudflare-axi's `NOT_CONFIGURED` should become `NOT_LINKED` ([architecture.md](architecture.md#error-code-vocabulary)).
+2. **Backend stance.** netlify-axi and calcom-axi need a VISION.md that states CLI first and when API calls are allowed.
+3. **Live smoke for `variables set`.** railway-axi's only write has no written smoke procedure.
+4. **Truncation.** Port calcom-axi's `Truncator` to the other three when a command can return long text (railway-axi `logs` is the first candidate).
+5. **Args helper name.** Pick one of `assertNoArgs` and `rejectExtraArgs` for the "reject leftovers" step and use it in all four.
 
 Done since the first audit: the scoped npm name is merged in all four ([railway-axi#13](https://github.com/simkimsia/railway-axi/pull/13), [cloudflare-axi#13](https://github.com/simkimsia/cloudflare-axi/pull/13), [netlify-axi#2](https://github.com/simkimsia/netlify-axi/pull/2), [calcom-axi#2](https://github.com/simkimsia/calcom-axi/pull/2)), and all four are published on npm as `@simkimsia/<name>@0.1.0` ([distribution.md](distribution.md)).
+On 2026-10-04 the shared CI workflow on Node 24, `.prettierignore`, the npm-first README install section, and the skill Setup pointer to the README merged in all four ([railway-axi#14](https://github.com/simkimsia/railway-axi/pull/14), [cloudflare-axi#14](https://github.com/simkimsia/cloudflare-axi/pull/14), [netlify-axi#3](https://github.com/simkimsia/netlify-axi/pull/3), [calcom-axi#3](https://github.com/simkimsia/calcom-axi/pull/3)), closing [cloudflare-axi#12](https://github.com/simkimsia/cloudflare-axi/issues/12), [netlify-axi#1](https://github.com/simkimsia/netlify-axi/issues/1), and [calcom-axi#1](https://github.com/simkimsia/calcom-axi/issues/1).
+The CI template has since gained a `paths-ignore` block for release-please, which reaches each repo with the release rollout.
 
-Larger items, not drift: session hooks, a generated skill, release-please, and `bench/` in each repo.
+Larger items, not drift: session hooks, a generated skill, and `bench/` in each repo.
+Release automation (release-please with npm trusted publishing) is rolling out via PRs, starting with railway-axi ([distribution.md](distribution.md#releases-release-please-and-trusted-publishing)).

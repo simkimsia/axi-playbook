@@ -2,7 +2,7 @@
 
 All four repos are published on npm under my scope, as `@simkimsia/<vendor>-axi`.
 Version 0.1.0 of each went out on 2026-10-04.
-This doc covers the naming rule, the install paths, the publish gotchas I hit, and the release plan.
+This doc covers the naming rule, the install paths, the publish gotchas I hit, and release automation.
 
 ## Check the npm name before naming the repo
 
@@ -73,17 +73,33 @@ Wait before concluding the publish failed or retrying it.
 npm puts the account email into the package metadata, where anyone can read it.
 Use a forwarding alias as the npm account email, not a personal address.
 
-## Release plan: release-please
+## Releases: release-please and trusted publishing
 
-Not adopted in any repo yet. The model is gh-axi:
+Status: rolling out via PRs, starting with railway-axi. Nothing is merged yet, so every repo still publishes by hand (above).
+The model is gh-axi, and the files are in [templates](../templates):
 
-- [release-please.yml](https://github.com/kunchenguid/gh-axi/blob/main/.github/workflows/release-please.yml) opens a release PR from conventional commits on `main`. When that PR merges, the same workflow builds and runs `npm publish --access public --provenance`.
-- [guard-generated-files.yml](https://github.com/kunchenguid/gh-axi/blob/main/.github/workflows/guard-generated-files.yml) fails any human PR that edits `CHANGELOG.md` or `.release-please-manifest.json`, because release-please owns them.
+- [release-please-config.json](../templates/release-please-config.json) sets the package name, `@simkimsia/<vendor>-axi`, and keeps pre-1.0 bumps small (`feat` bumps the patch, a breaking change bumps the minor).
+- [.release-please-manifest.json](../templates/.release-please-manifest.json) is seeded with the version already on npm, `0.1.0`.
+- [release-please.yml](../templates/.github/workflows/release-please.yml) runs on every push to `main`.
+- [guard-generated-files.yml](../templates/.github/workflows/guard-generated-files.yml) fails any human PR that edits `CHANGELOG.md` or `.release-please-manifest.json`, because release-please owns them.
+- [ci.yml](../templates/.github/workflows/ci.yml) gets a `paths-ignore` block for those same files.
 
-Why release-please: versions and changelogs come from commit messages already written in conventional form ([process.md](process.md)), and publishing with provenance ties each npm version to the commit and workflow that built it.
+How a release happens:
 
-Order of work to adopt it in each repo:
+1. Conventional commits land on `main` ([process.md](process.md#conventional-commits)).
+2. release-please opens or updates one release PR that bumps `package.json`, the manifest, and `CHANGELOG.md` from those commits.
+3. Merging that PR tags the release, and the same workflow builds and runs `npm publish --access public --provenance`.
 
-1. Add the two workflows and an `NPM_TOKEN` or trusted publisher.
-2. Seed `.release-please-manifest.json` with the published version, 0.1.0.
-3. Stop publishing by hand.
+Publishing uses npm trusted publishing (OIDC).
+There is no `NPM_TOKEN` secret: the workflow has `id-token: write`, and npm trusts that one workflow in that one repo.
+Trusted publishing needs npm 11.5.1 or later, and the npm bundled with the runner's Node 24 can be older, so the workflow runs `npm install -g npm@latest` before publishing.
+Provenance ties each npm version to the commit and workflow run that built it.
+
+One-time setup per package, done by hand on npmjs.com before the first automated release: open the package's Settings, add a Trusted Publisher for GitHub Actions with owner `simkimsia`, the repo name, and workflow filename `release-please.yml`.
+The package must already exist on npm, which is why 0.1.0 was published by hand.
+
+Why the `paths-ignore` blocks: release-please opens its PR with `GITHUB_TOKEN`, and a `pull_request` run triggered by `GITHUB_TOKEN` sits in `action_required` and never starts.
+That PR only touches the three generated files, so ignoring those paths means no stuck run is ever created.
+The guard's author check alone cannot do this, because it is evaluated inside a run that never starts.
+
+After the rollout merges in a repo, stop publishing that repo by hand.

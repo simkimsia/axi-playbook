@@ -54,7 +54,8 @@ throwaway resource named `<vendor>-axi-smoke`: create, write, read back with
   (import specifiers end in `.js`), Vitest tests in `test/`.
 - Tests are OFFLINE: they feed captured real `<cli>` output as fixtures and
   never spawn the real binary or touch the network.
-- Conventional commit messages (`feat:`, `fix:`, `docs:`) for release-please.
+- Conventional commit messages (`feat:`, `fix:`, `docs:`). Releases are cut by
+  release-please from those commits and published to npm by trusted publishing.
 
 ## Maintaining this file
 

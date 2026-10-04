@@ -36,14 +36,14 @@ This playbook covers the decisions the spec leaves open.
 | [conditional-modules.md](docs/conditional-modules.md) | Secret redaction, ambiguity refusal, write safety, session hooks |
 | [testing.md](docs/testing.md) | Offline tests, verbatim stderr fixtures, live smoke for writes |
 | [process.md](docs/process.md) | Branches, the no-mistakes gate, merges, commits, gap issues |
-| [distribution.md](docs/distribution.md) | npm naming, install, publish gotchas, release plan |
+| [distribution.md](docs/distribution.md) | npm naming, install, publish gotchas, release-please and trusted publishing |
 | [ecosystem.md](docs/ecosystem.md) | Agent skill, catalog entry, scoring, benchmarks, VISION.md and triage |
 | [using-others-axis.md](docs/using-others-axis.md) | The axi-first rule, gap and bypass handling, writing upstream issues |
 | [conformance.md](docs/conformance.md) | Which repo follows which convention, and the drift to fix |
 
 ## Templates
 
-[`templates/`](templates) holds copyable starter files: `VISION.md`, `AGENTS.md`, `CLAUDE.md`, `README.md`, the agent skill, the CI workflow, `.gitignore`, and `.prettierignore`.
+[`templates/`](templates) holds copyable starter files: `VISION.md`, `AGENTS.md`, `CLAUDE.md`, `README.md`, the agent skill, the CI and release workflows, the release-please config and manifest, `.gitignore`, and `.prettierignore`.
 Placeholders are listed in [repo-skeleton.md](docs/repo-skeleton.md#using-the-templates).
 
 ## Conformance at a glance
@@ -54,8 +54,9 @@ The short version:
 - **Shared by all four:** the scaffold (bin, tsconfig, package.json), the `--version` fast path, one spawner module, ordered error patterns, `formatError` hook, args rejection, the shipped agent skill, and a catalog entry upstream.
 - **Published:** all four are on npm as `@simkimsia/<vendor>-axi@0.1.0` since 2026-10-04.
 - **Present in some:** VISION.md (railway, cloudflare), triage crewmate (cloudflare), truncation with `--full` (calcom).
-- **Rolling out via PRs to all four:** CI on Node 24, `.prettierignore`, and the npm-first README install section.
-- **Present in none yet:** session hooks, `bench/`, release automation.
+- **Merged in all four on 2026-10-04:** CI on Node 24, `.prettierignore`, the npm-first README install section, and the skill Setup pointer to the README.
+- **Rolling out via PRs:** release automation with release-please and npm trusted publishing, starting with railway-axi.
+- **Present in none yet:** session hooks, `bench/`.
 - **Known drift:** the error code for "no linked context" and unwritten backend stances for netlify and calcom.
 
 ## License
