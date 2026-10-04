@@ -92,5 +92,7 @@ Copy [`templates/`](../templates) into the new repo root, rename `skills/vendor-
 | `<VENDOR>` | uppercase prefix for error codes | `RAILWAY` |
 | `<surfaces>` | the areas the axi covers | projects, services, deployments, logs |
 
+Any other `<...>` text in the templates, such as `<version>` or a bracketed sentence, is a prompt to fill in or delete.
+
 Source files are not templated.
 Copy `bin/`, `src/version.ts`, `src/toon.ts`, `src/args.ts`, `src/errors.ts`, and `src/cli.ts` from railway-axi and rename, because they are already generic and tested.
