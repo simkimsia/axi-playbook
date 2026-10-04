@@ -43,7 +43,7 @@ This playbook covers the decisions the spec leaves open.
 
 ## Templates
 
-[`templates/`](templates) holds copyable starter files: `VISION.md`, `AGENTS.md`, `CLAUDE.md`, `README.md`, the agent skill, the CI and release workflows, the release-please config and manifest, `.gitignore`, and `.prettierignore`.
+[`templates/`](templates) holds copyable starter files: `VISION.md`, `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, `README.md`, the agent skill, the CI and release workflows, the release-please config and manifest, `.gitignore`, and `.prettierignore`.
 Placeholders are listed in [repo-skeleton.md](docs/repo-skeleton.md#using-the-templates).
 
 ## Conformance at a glance

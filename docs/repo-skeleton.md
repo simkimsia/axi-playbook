@@ -20,6 +20,7 @@ Keeping the skeleton identical means a fix in one repo can be copied to the othe
   skills/<vendor>-axi/SKILL.md the shipped agent skill
   AGENTS.md                    agent memory for this repo
   CLAUDE.md                    one line: @AGENTS.md
+  CONTRIBUTING.md              how to raise a PR (no-mistakes), release rules
   VISION.md                    scope, interface, safety rules
   README.md
   LICENSE                      MIT
@@ -88,6 +89,13 @@ MIT matches gh-axi and `axi-sdk-js`, which keeps contributions simple.
 The CLI notes section is the most valuable part.
 It records verified quirks of the vendor CLI (output shapes, exit codes that lie, commands that hang), with the version checked.
 See [cloudflare-axi/AGENTS.md](https://github.com/simkimsia/cloudflare-axi/blob/main/AGENTS.md) for a dense example.
+
+## CONTRIBUTING.md
+
+`CONTRIBUTING.md` is for people, `AGENTS.md` is for agents.
+It is adapted from [gh-axi's](https://github.com/kunchenguid/gh-axi/blob/main/CONTRIBUTING.md): raise PRs through no-mistakes, use conventional commits, never hand-edit release-please output, and keep install steps in the README only.
+The release guard's error message points contributors at it, so every repo with `guard-generated-files.yml` needs one.
+Template: [templates/CONTRIBUTING.md](../templates/CONTRIBUTING.md).
 
 ## Using the templates
 
