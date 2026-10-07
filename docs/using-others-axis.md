@@ -53,7 +53,8 @@ Structure:
 
 Before filing:
 
-- Reproduce with the plain CLI, to prove the gap is in the wrapper and not the vendor.
+- Reproduce with the plain CLI, using the exact argv the axi forwarded (`AXI_DEBUG=1` where the axi supports it, see [architecture.md](architecture.md#one-module-spawns-the-vendor-binary)). Retyping the query by hand tests your translation, not the axi's.
+- If the plain CLI fails the same way, still file it. It is an inherited gap, and the axi still owes a workaround, a mapped error, or a documented limit ([process.md](process.md#inherited-gaps)).
 - Read the wrapper's source and cite the line. A maintainer can confirm a cited cause in a minute.
 - Search open and closed issues.
 
@@ -62,5 +63,9 @@ Examples on gh-axi:
 - [#180](https://github.com/kunchenguid/gh-axi/issues/180): `api graphql --field` returns the schema because `--method GET` is always forwarded. Cites the cause in `src/commands/api.ts`.
 - [#181](https://github.com/kunchenguid/gh-axi/issues/181): wrap `gh discussion`. States which `gh` subcommands exist, and the real task that needed them.
 - [#134](https://github.com/kunchenguid/gh-axi/issues/134): publish an existing local repo (`gh repo create --source --push`). Fixed by merged PRs [#135](https://github.com/kunchenguid/gh-axi/pull/135) and [#137](https://github.com/kunchenguid/gh-axi/pull/137), both raised through no-mistakes.
+
+A counter-example, kept for the lesson: [#163](https://github.com/kunchenguid/gh-axi/issues/163) (`search issues` with a `repo:` qualifier plus more terms) was closed as "native `gh` fails too, so not a wrapper defect".
+The plain-CLI repro passed the whole query as one string, which is what gh-axi itself was doing wrong. gh-axi joined the terms, and `gh` quotes a multi-word argument that starts with a qualifier.
+[#188](https://github.com/kunchenguid/gh-axi/pull/188) fixes it in the wrapper by forwarding each term as its own argument.
 
 When the maintainer agrees, offer the PR yourself, following the upstream repo's contribution rules ([process.md](process.md#the-no-mistakes-gate)).

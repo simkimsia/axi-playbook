@@ -21,6 +21,12 @@ Commands call its helpers (`railwayJson`, `wranglerExec`, and so on) and never s
 Why: error mapping, JSON parsing quirks, environment handling, and secret redaction all live in one place.
 A missing binary (`ENOENT`) maps to `<VENDOR>_NOT_INSTALLED` with an install hint, so the agent knows to ask the user instead of retrying.
 
+With `AXI_DEBUG=1` set, the spawner prints each vendor argv to stderr before running it, one line per call, with secrets redacted.
+stdout stays clean TOON.
+
+Why: triage needs the exact command the axi forwarded. Comparing against a plain-CLI command retyped by hand tests the reporter's translation, not the axi's ([process.md](process.md#inherited-gaps)).
+Because the spawner is the only module that runs the vendor binary, this is one change per repo.
+
 ## Errors: ordered patterns, first match wins
 
 `src/errors.ts` defines `AxiError(message, code, suggestions[])` and a `map<Vendor>Error(stderr, exitCode)` function.

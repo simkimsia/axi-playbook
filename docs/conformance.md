@@ -12,6 +12,7 @@ Legend: **yes** follows the convention, **no** missing, **diff** present but dif
 | `--version` fast path, leaf `src/version.ts` | yes | yes | yes | yes |
 | Single spawner module | yes | yes | yes | yes |
 | `<VENDOR>_NOT_INSTALLED` | yes | yes | yes | yes |
+| `AXI_DEBUG=1` prints vendor argv to stderr | no | no | no | no |
 | Ordered error patterns, first match wins | yes | yes | yes | yes |
 | "No linked context" code is `NOT_LINKED` | yes | diff (`NOT_CONFIGURED`) | yes | n/a |
 | Only `VALIDATION_ERROR` exits 2 | yes | yes | yes | yes |
@@ -61,6 +62,7 @@ Legend: **yes** follows the convention, **no** missing, **diff** present but dif
 3. **Live smoke for `variables set`.** railway-axi's only write has no written smoke procedure.
 4. **Truncation.** Port calcom-axi's `Truncator` to the other three when a command can return long text (railway-axi `logs` is the first candidate).
 5. **Args helper name.** Pick one of `assertNoArgs` and `rejectExtraArgs` for the "reject leftovers" step and use it in all four.
+6. **`AXI_DEBUG`.** Added 2026-10-08 after gh-axi #163. One change in each spawner module ([architecture.md](architecture.md#one-module-spawns-the-vendor-binary)). The gap template's two inherited-gap questions also need to reach each shipped skill ([process.md](process.md#gap-issues)).
 
 Done since the first audit: the scoped npm name is merged in all four ([railway-axi#13](https://github.com/simkimsia/railway-axi/pull/13), [cloudflare-axi#13](https://github.com/simkimsia/cloudflare-axi/pull/13), [netlify-axi#2](https://github.com/simkimsia/netlify-axi/pull/2), [calcom-axi#2](https://github.com/simkimsia/calcom-axi/pull/2)), and all four are published on npm as `@simkimsia/<name>@0.1.0` ([distribution.md](distribution.md)).
 On 2026-10-04 the shared CI workflow on Node 24, `.prettierignore`, the npm-first README install section, and the skill Setup pointer to the README merged in all four ([railway-axi#14](https://github.com/simkimsia/railway-axi/pull/14), [cloudflare-axi#14](https://github.com/simkimsia/cloudflare-axi/pull/14), [netlify-axi#3](https://github.com/simkimsia/netlify-axi/pull/3), [calcom-axi#3](https://github.com/simkimsia/calcom-axi/pull/3)), closing [cloudflare-axi#12](https://github.com/simkimsia/cloudflare-axi/issues/12), [netlify-axi#1](https://github.com/simkimsia/netlify-axi/issues/1), and [calcom-axi#1](https://github.com/simkimsia/calcom-axi/issues/1).

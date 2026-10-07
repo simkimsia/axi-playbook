@@ -53,6 +53,24 @@ Why: the reviewer, human or bot, judges the PR against its stated intent. A list
 
 When an agent finds an operation the axi does not wrap, it falls back to the plain CLI, finishes the task, and files an issue labeled `agent-reported-gap`.
 The issue template lives in the shipped skill ([railway-axi skill](https://github.com/simkimsia/railway-axi/blob/main/skills/railway-axi/SKILL.md)): what I tried, what worked instead, what the agent needed from the output, and the task context.
+It should also ask two questions (not yet in the shipped skills, see [conformance.md](conformance.md#known-drift-to-fix)):
+
+- **Plain CLI result, with the exact argv the axi forwarded:** works, same failure, or n/a.
+- **If same failure:** should the axi shape the arguments, map the error, or document the limit?
 
 One issue per missing subcommand. Comment on an existing issue instead of opening a duplicate.
 For the enforcement side of this, see [using-others-axis.md](using-others-axis.md).
+
+## Inherited gaps
+
+"The plain CLI fails too" does not close a gap. The agent hit the failure through the axi, so the axi is the place to fix or explain it.
+Triage every gap into one of three outcomes:
+
+1. **Axi-caused.** The axi's argv translation produces the failure. Fix the translation.
+2. **Inherited.** The vendor CLI really behaves this way. The axi still owes one of: a workaround (shape the argv so the vendor call succeeds), a mapped error that names the cause and the next step, or a documented limit in `--help` and the skill. Label the issue `inherited-gap` and keep it open until one of those ships. Link the vendor's own issue if there is one.
+3. **Out of reach.** Nothing the axi sends can avoid it, for example an API limit. Document it in `--help` and the skill, then close the issue with a pointer to that line.
+
+The bar: the agent either succeeds, or gets an error it can act on in one retry (AXI principle: actionable errors).
+
+Prove the classification with the forwarded argv (`AXI_DEBUG=1`, [architecture.md](architecture.md#one-module-spawns-the-vendor-binary)), not with a query retyped by hand.
+The worked example is gh-axi [#163](https://github.com/kunchenguid/gh-axi/issues/163), closed as a vendor bug, and [#188](https://github.com/kunchenguid/gh-axi/pull/188), which fixed it in the wrapper.
