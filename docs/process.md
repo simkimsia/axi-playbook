@@ -53,7 +53,7 @@ Why: the reviewer, human or bot, judges the PR against its stated intent. A list
 
 When an agent finds an operation the axi does not wrap, it falls back to the plain CLI, finishes the task, and files an issue labeled `agent-reported-gap`.
 The issue template lives in the shipped skill ([railway-axi skill](https://github.com/simkimsia/railway-axi/blob/main/skills/railway-axi/SKILL.md)): what I tried, what worked instead, what the agent needed from the output, and the task context.
-It should also ask two questions (not yet in the shipped skills, see [conformance.md](conformance.md#known-drift-to-fix)):
+It also asks two questions:
 
 - **Plain CLI result, with the exact argv the axi forwarded:** works, same failure, or n/a.
 - **If same failure:** should the axi shape the arguments, map the error, or document the limit?
